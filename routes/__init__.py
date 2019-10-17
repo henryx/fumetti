@@ -4,10 +4,11 @@
 # Project Name: fumetti
 # Description   A RESTful API for managing a collection of comic books
 # License       GPL version 2 (see LICENSE for details)
-from routes import index
+from routes import index, serie
 
-__all__ = ["index"]
+__all__ = ["index", "serie"]
 
 ROUTES = {
-    "/": index.index
+    "/": index.index,
+    "/serie": serie.get_serie
 }
