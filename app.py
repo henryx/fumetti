@@ -19,8 +19,10 @@ __version__ = "0.0.0"
 import json
 
 from flask import Flask, Response
+from flask_cors import CORS
 
 app = Flask("fumetti")
+CORS(app)
 
 
 @app.route("/")
