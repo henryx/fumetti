@@ -5,6 +5,8 @@
 # Project Name: fumetti
 # Description   A RESTful API for managing a collection of comic books
 # License       GPL version 2 (see LICENSE for details)
+import os
+
 import routes
 
 __author__ = "Enrico Bianchi"
@@ -24,6 +26,14 @@ CORS(app)
 
 
 def main():
+    app.config.from_mapping(
+        DATABASE_HOST=os.environ.get("DATABASE_HOST", default="localhost"),
+        DATABASE_PORT=os.environ.get("DATABASE_PORT", default="5432"),
+        DATABASE_NAME=os.environ.get("DATABASE_NAME", default="fumetti"),
+        DATABASE_USER=os.environ.get("DATABASE_USER", default="fumettiuser"),
+        DATABASE_PASSWORD=os.environ.get("DATABASE_PASSWORD", default="")
+    )
+
     for url in routes.ROUTES:
         app.add_url_rule(url, view_func=routes.ROUTES[url])
 
