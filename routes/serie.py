@@ -8,7 +8,7 @@ import json
 
 from flask import Response
 
-import utils
+import utils.database
 
 
 def get_serie():
