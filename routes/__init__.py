@@ -9,6 +9,12 @@ from routes import index, serie
 __all__ = ["index", "serie"]
 
 ROUTES = {
-    "/": index.index,
-    "/serie": serie.get_serie
+    "/": {
+        "func": index.index,
+        "methods": ["GET"]
+    },
+    "/serie": {
+        "func": serie.get_serie,
+        "methods": ["GET"]
+    }
 }

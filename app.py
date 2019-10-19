@@ -35,7 +35,7 @@ def main():
     )
 
     for url in routes.ROUTES:
-        app.add_url_rule(url, view_func=routes.ROUTES[url])
+        app.add_url_rule(url, view_func=routes.ROUTES[url]["func"], methods=routes.ROUTES[url]["methods"])
 
     app.run(debug=True)
 
