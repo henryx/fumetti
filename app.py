@@ -37,7 +37,8 @@ def main():
     for url in routes.ROUTES:
         app.add_url_rule(url, view_func=routes.ROUTES[url]["func"], methods=routes.ROUTES[url]["methods"])
 
-    app.run(debug=True)
+    app.run(debug=os.environ.get("APP_DEBUG", default=False), host=os.environ.get("APP_HOST", default="localhost"),
+            port=os.environ.get("APP_PORT", default="8000"))
 
 
 if __name__ == '__main__':
