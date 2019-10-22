@@ -20,5 +20,9 @@ ROUTES = {
     "/valuta": {
         "func": lookup.get_valuta,
         "methods": ["GET"]
+    },
+    "/rilegatura": {
+        "func": lookup.get_rilegatura,
+        "methods": ["GET"]
     }
 }
