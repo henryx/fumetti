@@ -24,5 +24,9 @@ ROUTES = {
     "/rilegatura": {
         "func": lookup.get_rilegatura,
         "methods": ["GET"]
-    }
+    },
+    "/conservazione": {
+        "func": lookup.get_conservazione,
+        "methods": ["GET"]
+    },
 }
