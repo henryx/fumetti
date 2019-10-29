@@ -4,7 +4,7 @@
 # Project Name: fumetti
 # Description   A RESTful API for managing a collection of comic books
 # License       GPL version 2 (see LICENSE for details)
-from routes import index, serie, lookup
+from routes import albi, index, serie, lookup
 
 __all__ = ["index", "serie", "lookup"]
 
@@ -29,4 +29,8 @@ ROUTES = {
         "func": lookup.get_conservazione,
         "methods": ["GET"]
     },
+    "/albi": {
+        "func": albi.albi,
+        "methods": ["GET", "POST"]
+    }
 }
