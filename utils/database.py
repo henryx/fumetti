@@ -22,5 +22,5 @@ def get_db():
 def close_db():
     db = g.pop('db', None)
 
-    if not db:
+    if db:
         db.close()
