@@ -11,9 +11,14 @@ from flask import Response, request
 
 def albi():
     if request.method == "GET":
-        get_albi()
+        resp = get_albi()
     elif request.method == "POST":
-        post_albi()
+        resp = post_albi()
+    else:
+        res = {"msg": "Request not allowed", "op": "ko"}
+        resp = Response(json.dumps(res), status=405, mimetype="application/json")
+
+    return resp
 
 
 def get_albi():
