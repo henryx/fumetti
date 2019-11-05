@@ -28,6 +28,10 @@ def get_albi():
 
 
 def post_albi():
+    content = request.get_json("data")
+
+    # TODO: save data into database and return response
+
     res = {"msg": "POST albi requested", "op": "ok"}
     resp = Response(json.dumps(res), status=200, mimetype="application/json")
     return resp
