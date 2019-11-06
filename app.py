@@ -8,6 +8,7 @@
 import os
 
 import routes
+from utils import database
 
 __author__ = "Enrico Bianchi"
 __copyright__ = "Copyright 2019, Enrico Bianchi"
@@ -39,6 +40,11 @@ def main():
 
     app.run(debug=os.environ.get("APP_DEBUG", default=False), host=os.environ.get("APP_HOST", default="localhost"),
             port=os.environ.get("APP_PORT", default="8000"))
+
+
+@app.teardown_appcontext
+def teardown_db(f):
+    database.close_db()
 
 
 if __name__ == '__main__':
