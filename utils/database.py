@@ -4,6 +4,8 @@
 # Project Name: fumetti
 # Description   A RESTful API for managing a collection of comic books
 # License       GPL version 2 (see LICENSE for details)
+from contextlib import closing
+
 import psycopg2
 from flask import g, current_app
 
@@ -24,3 +26,16 @@ def close_db():
 
     if db:
         db.close()
+
+
+def insert_albo(db, data):
+    query = "INSERT INTO albi(id_serie, numero_albo, data_pubblicazione, prezzo_copertina, id_valuta, id_rilegatura, id_stato_conservazione, note) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+
+    with closing(db.cursor()) as cur:
+        try:
+            cur.execute(query, (data["serie"], data["numero"], data["date"], data["prezzo"], data["valuta"],
+                                data["rilegatura"], data["conservazione"], data["note"]))
+            db.commit()
+        except psycopg2.Error as e:
+            return False
+        return True
