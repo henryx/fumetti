@@ -7,7 +7,10 @@
 # License       GPL version 2 (see LICENSE for details)
 import os
 
-import routes
+from flask import Flask
+from flask_cors import CORS
+
+from routes import *
 from utils import database
 
 __author__ = "Enrico Bianchi"
@@ -18,9 +21,6 @@ __maintainer__ = "Enrico Bianchi"
 __email__ = "enrico.bianchi@gmail.com"
 __status__ = "Development"
 __version__ = "0.0.0"
-
-from flask import Flask
-from flask_cors import CORS
 
 app = Flask("fumetti")
 CORS(app)
@@ -39,8 +39,34 @@ def config():
 def main():
     config()
 
-    for url in routes.ROUTES:
-        app.add_url_rule(url, view_func=routes.ROUTES[url]["func"], methods=routes.ROUTES[url]["methods"])
+    ROUTES = {
+        "/": {
+            "func": index.index,
+            "methods": ["GET"]
+        },
+        "/serie": {
+            "func": serie.get_serie,
+            "methods": ["GET"]
+        },
+        "/valuta": {
+            "func": lookup.get_valuta,
+            "methods": ["GET"]
+        },
+        "/rilegatura": {
+            "func": lookup.get_rilegatura,
+            "methods": ["GET"]
+        },
+        "/conservazione": {
+            "func": lookup.get_conservazione,
+            "methods": ["GET"]
+        },
+        "/albi": {
+            "func": albi.albi,
+            "methods": ["GET", "POST"]
+        }
+    }
+    for url in ROUTES:
+        app.add_url_rule(url, view_func=ROUTES[url]["func"], methods=ROUTES[url]["methods"])
 
     app.run(debug=os.environ.get("APP_DEBUG", default=False), host=os.environ.get("APP_HOST", default="localhost"),
             port=os.environ.get("APP_PORT", default="8000"))
