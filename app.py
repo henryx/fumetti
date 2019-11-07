@@ -45,7 +45,7 @@ def main():
             "methods": ["GET"]
         },
         "/serie": {
-            "func": serie.get_serie,
+            "func": serie.Serie().get_serie,
             "methods": ["GET"]
         },
         "/valuta": {

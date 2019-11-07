@@ -13,22 +13,26 @@ from flask import Response
 import utils.database
 
 
-def get_serie():
-    data = []
+class Serie:
+    def __init__(self):
+        pass
 
-    try:
-        db = utils.database.get_db()
+    def get_serie(self):
+        data = []
 
-        with closing(db.cursor()) as cur:
-            cur.execute("SELECT id_serie, nome FROM serie ORDER BY nome")
-            results = cur.fetchall()
-            for item in results:
-                data.append({"id": item[0], "name": item[1]})
+        try:
+            db = utils.database.get_db()
 
-        res = {"data": data, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
-    except psycopg2.OperationalError:
-        res = {"op": "ko", "msg": "Error to connect to database"}
-        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+            with closing(db.cursor()) as cur:
+                cur.execute("SELECT id_serie, nome FROM serie ORDER BY nome")
+                results = cur.fetchall()
+                for item in results:
+                    data.append({"id": item[0], "name": item[1]})
 
-    return resp
+            res = {"data": data, "op": "ok"}
+            resp = Response(json.dumps(res), status=200, mimetype="application/json")
+        except psycopg2.OperationalError:
+            res = {"op": "ko", "msg": "Error to connect to database"}
+            resp = Response(json.dumps(res), status=500, mimetype="application/json")
+
+        return resp
