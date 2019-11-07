@@ -61,9 +61,14 @@ def main():
             "methods": ["GET"]
         },
         "/albi": {
-            "func": albi.albi,
-            "methods": ["GET", "POST"]
+            "func": albi.Albi().post_albi,
+            "methods": ["POST"]
+        },
+        "/albi/<serie>": {
+            "func": albi.Albi().get_albi,
+            "methods": ["GET"]
         }
+
     }
     for url in ROUTES:
         app.add_url_rule(url, view_func=ROUTES[url]["func"], methods=ROUTES[url]["methods"])
