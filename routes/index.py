@@ -9,6 +9,7 @@ import json
 from flask import Response
 
 
+# NOTE: check if transform it as class
 def index():
     res = {"msg": "Fumetti REST API", "op": "ok"}
     resp = Response(json.dumps(res), status=200, mimetype="application/json")
