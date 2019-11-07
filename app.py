@@ -26,7 +26,7 @@ app = Flask("fumetti")
 CORS(app)
 
 
-def main():
+def config():
     app.config.from_mapping(
         DATABASE_HOST=os.environ.get("DATABASE_HOST", default="localhost"),
         DATABASE_PORT=os.environ.get("DATABASE_PORT", default="5432"),
@@ -34,6 +34,10 @@ def main():
         DATABASE_USER=os.environ.get("DATABASE_USER", default=""),
         DATABASE_PASSWORD=os.environ.get("DATABASE_PASSWORD", default="")
     )
+
+
+def main():
+    config()
 
     for url in routes.ROUTES:
         app.add_url_rule(url, view_func=routes.ROUTES[url]["func"], methods=routes.ROUTES[url]["methods"])
