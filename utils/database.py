@@ -6,17 +6,22 @@
 # License       GPL version 2 (see LICENSE for details)
 from contextlib import closing
 
-import psycopg2
+import psycopg2.pool
 from flask import g, current_app
 
 
+def open_db(host, port, dbname, user, password):
+    pool = psycopg2.pool.ThreadedConnectionPool(1, 20,
+                                                host=host, port=port,
+                                                dbname=dbname, user=user,
+                                                password=password)
+
+    return pool
+
+
 def get_db():
-    if 'db' not in g:
-        g.db = psycopg2.connect(host=current_app.config["DATABASE_HOST"],
-                                port=current_app.config["DATABASE_PORT"],
-                                dbname=current_app.config["DATABASE_NAME"],
-                                user=current_app.config["DATABASE_USER"],
-                                password=current_app.config["DATABASE_PASSWORD"])
+    if "db" not in g:
+        g.db = current_app.config["pgpool"].getconn()
 
     return g.db
 
@@ -25,7 +30,7 @@ def close_db():
     db = g.pop('db', None)
 
     if db:
-        db.close()
+        current_app.config["pgpool"].putconn(db)
 
 
 def insert_albo(db, data):
