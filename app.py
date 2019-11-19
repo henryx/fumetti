@@ -45,8 +45,8 @@ def main():
             "methods": ["GET"]
         },
         "/serie": {
-            "func": serie.Serie().get_serie,
-            "methods": ["GET"]
+            "func": serie.Serie().request_serie,
+            "methods": ["GET", "POST"]
         },
         "/valuta": {
             "func": lookup.get_valuta,
@@ -68,7 +68,6 @@ def main():
             "func": albi.Albi().get_albi,
             "methods": ["GET"]
         }
-
     }
     for url in ROUTES:
         app.add_url_rule(url, view_func=ROUTES[url]["func"], methods=ROUTES[url]["methods"])

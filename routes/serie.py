@@ -8,7 +8,7 @@ import json
 from contextlib import closing
 
 import psycopg2
-from flask import Response
+from flask import Response, request
 
 import utils.database
 
@@ -16,6 +16,17 @@ import utils.database
 class Serie:
     def __init__(self):
         pass
+
+    def request_serie(self):
+        if request.method == "GET":
+            resp = self.get_serie()
+        elif request.method == "POST":
+            resp = self.post_serie()
+        else:
+            res = {"msg": "Request not allowed", "op": "ko"}
+            resp = Response(json.dumps(res), status=405, mimetype="application/json")
+
+        return resp
 
     def get_serie(self):
         data = []
@@ -34,5 +45,13 @@ class Serie:
         except psycopg2.OperationalError:
             res = {"op": "ko", "msg": "Error to connect to database"}
             resp = Response(json.dumps(res), status=500, mimetype="application/json")
+
+        return resp
+
+    def post_serie(self):
+        content = request.get_json("data")
+        # TODO: check if serie exists and save it
+        res = {"data": content, "op": "ok"}
+        resp = Response(json.dumps(res), status=200, mimetype="application/json")
 
         return resp
