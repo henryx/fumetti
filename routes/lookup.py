@@ -13,121 +13,104 @@ from flask import Response
 import utils
 
 
-def get_valuta():
+def execute_query_lookup(query):
+    data = []
+
     try:
-        data = []
         db = utils.database.get_db()
 
         with closing(db.cursor()) as cur:
-            cur.execute("SELECT id_valuta, simbolo FROM valuta")
+            cur.execute(query)
             results = cur.fetchall()
             for item in results:
                 data.append({"id": item[0], "name": item[1]})
 
         res = {"data": data, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
     except psycopg2.OperationalError:
         res = {"op": "ko", "msg": "Error to connect to database"}
-        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+
+    return res
+
+
+def get_valuta():
+    query = "SELECT id_valuta, simbolo FROM valuta"
+
+    res = execute_query_lookup(query)
+
+    if res["op"] == "ok":
+        status = 200
+    else:
+        status = 500
+    resp = Response(json.dumps(res), status=status, mimetype="application/json")
 
     return resp
 
 
 def get_rilegatura():
-    try:
-        data = []
-        db = utils.database.get_db()
+    query = "SELECT id_rilegatura, descrizione FROM rilegatura"
 
-        with closing(db.cursor()) as cur:
-            cur.execute("SELECT id_rilegatura, descrizione FROM rilegatura")
-            results = cur.fetchall()
-            for item in results:
-                data.append({"id": item[0], "name": item[1]})
+    res = execute_query_lookup(query)
 
-        res = {"data": data, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
-    except psycopg2.OperationalError:
-        res = {"op": "ko", "msg": "Error to connect to database"}
-        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+    if res["op"] == "ok":
+        status = 200
+    else:
+        status = 500
+    resp = Response(json.dumps(res), status=status, mimetype="application/json")
 
     return resp
 
 
 def get_conservazione():
-    try:
-        data = []
-        db = utils.database.get_db()
+    query = "SELECT id_stato_conservazione, descrizione FROM stato_conservazione"
 
-        with closing(db.cursor()) as cur:
-            cur.execute("SELECT id_stato_conservazione, descrizione FROM stato_conservazione")
-            results = cur.fetchall()
-            for item in results:
-                data.append({"id": item[0], "name": item[1]})
+    res = execute_query_lookup(query)
 
-        res = {"data": data, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
-    except psycopg2.OperationalError:
-        res = {"op": "ko", "msg": "Error to connect to database"}
-        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+    if res["op"] == "ok":
+        status = 200
+    else:
+        status = 500
+    resp = Response(json.dumps(res), status=status, mimetype="application/json")
 
     return resp
 
 
 def get_status_serie():
-    try:
-        data = []
-        db = utils.database.get_db()
+    query = "SELECT id_status_serie, descrizione FROM status_serie"
 
-        with closing(db.cursor()) as cur:
-            cur.execute("SELECT id_status_serie, descrizione FROM status_serie")
-            results = cur.fetchall()
-            for item in results:
-                data.append({"id": item[0], "name": item[1]})
+    res = execute_query_lookup(query)
 
-        res = {"data": data, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
-    except psycopg2.OperationalError:
-        res = {"op": "ko", "msg": "Error to connect to database"}
-        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+    if res["op"] == "ok":
+        status = 200
+    else:
+        status = 500
+    resp = Response(json.dumps(res), status=status, mimetype="application/json")
 
     return resp
 
 
 def get_periodicita():
-    try:
-        data = []
-        db = utils.database.get_db()
+    query = "SELECT id_periodicita, descrizione FROM periodicita"
 
-        with closing(db.cursor()) as cur:
-            cur.execute("SELECT id_periodicita, descrizione FROM periodicita")
-            results = cur.fetchall()
-            for item in results:
-                data.append({"id": item[0], "name": item[1]})
+    res = execute_query_lookup(query)
 
-        res = {"data": data, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
-    except psycopg2.OperationalError:
-        res = {"op": "ko", "msg": "Error to connect to database"}
-        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+    if res["op"] == "ok":
+        status = 200
+    else:
+        status = 500
+    resp = Response(json.dumps(res), status=status, mimetype="application/json")
 
     return resp
 
 
 def get_genere_serie():
-    try:
-        data = []
-        db = utils.database.get_db()
+    query = "SELECT id_genere_serie, descrizione FROM genere_serie"
 
-        with closing(db.cursor()) as cur:
-            cur.execute("SELECT id_genere_serie, descrizione FROM genere_serie")
-            results = cur.fetchall()
-            for item in results:
-                data.append({"id": item[0], "name": item[1]})
+    res = execute_query_lookup(query)
 
-        res = {"data": data, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
-    except psycopg2.OperationalError:
-        res = {"op": "ko", "msg": "Error to connect to database"}
-        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+    if res["op"] == "ok":
+        status = 200
+    else:
+        status = 500
+    resp = Response(json.dumps(res), status=status, mimetype="application/json")
 
     return resp
