@@ -44,6 +44,10 @@ def main():
             "func": index.index,
             "methods": ["GET"]
         },
+        "/genere_serie": {
+            "func": lookup.get_genere_serie,
+            "methods": ["GET"]
+        },
         "/periodicita": {
             "func": lookup.get_periodicita,
             "methods": ["GET"]

@@ -111,3 +111,23 @@ def get_periodicita():
         resp = Response(json.dumps(res), status=500, mimetype="application/json")
 
     return resp
+
+
+def get_genere_serie():
+    try:
+        data = []
+        db = utils.database.get_db()
+
+        with closing(db.cursor()) as cur:
+            cur.execute("SELECT id_genere_serie, descrizione FROM genere_serie")
+            results = cur.fetchall()
+            for item in results:
+                data.append({"id": item[0], "name": item[1]})
+
+        res = {"data": data, "op": "ok"}
+        resp = Response(json.dumps(res), status=200, mimetype="application/json")
+    except psycopg2.OperationalError:
+        res = {"op": "ko", "msg": "Error to connect to database"}
+        resp = Response(json.dumps(res), status=500, mimetype="application/json")
+
+    return resp
