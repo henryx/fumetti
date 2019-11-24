@@ -60,6 +60,10 @@ def main():
             "func": lookup.get_conservazione,
             "methods": ["GET"]
         },
+        "/collane": {
+            "func": collane.get_collane,
+            "methods": ["GET"]
+        },
         "/albi": {
             "func": albi.Albi().post_albi,
             "methods": ["POST"]

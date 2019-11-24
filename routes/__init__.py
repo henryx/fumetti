@@ -5,4 +5,4 @@
 # Description   A RESTful API for managing a collection of comic books
 # License       GPL version 2 (see LICENSE for details)
 
-__all__ = ["albi", "index", "lookup", "serie"]
+__all__ = ["albi", "collane", "index", "lookup", "serie"]
