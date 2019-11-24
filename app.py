@@ -44,12 +44,32 @@ def main():
             "func": index.index,
             "methods": ["GET"]
         },
+        "/albi": {
+            "func": albi.Albi().post_albi,
+            "methods": ["POST"]
+        },
+        "/albi/<serie>": {
+            "func": albi.Albi().get_albi,
+            "methods": ["GET"]
+        },
+        "/collane": {
+            "func": collane.get_collane,
+            "methods": ["GET"]
+        },
+        "/conservazione": {
+            "func": lookup.get_conservazione,
+            "methods": ["GET"]
+        },
         "/genere_serie": {
             "func": lookup.get_genere_serie,
             "methods": ["GET"]
         },
         "/periodicita": {
             "func": lookup.get_periodicita,
+            "methods": ["GET"]
+        },
+        "/rilegatura": {
+            "func": lookup.get_rilegatura,
             "methods": ["GET"]
         },
         "/serie": {
@@ -62,26 +82,6 @@ def main():
         },
         "/valuta": {
             "func": lookup.get_valuta,
-            "methods": ["GET"]
-        },
-        "/rilegatura": {
-            "func": lookup.get_rilegatura,
-            "methods": ["GET"]
-        },
-        "/conservazione": {
-            "func": lookup.get_conservazione,
-            "methods": ["GET"]
-        },
-        "/collane": {
-            "func": collane.get_collane,
-            "methods": ["GET"]
-        },
-        "/albi": {
-            "func": albi.Albi().post_albi,
-            "methods": ["POST"]
-        },
-        "/albi/<serie>": {
-            "func": albi.Albi().get_albi,
             "methods": ["GET"]
         }
     }
