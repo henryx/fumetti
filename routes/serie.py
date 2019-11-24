@@ -50,8 +50,13 @@ class Serie:
 
     def post_serie(self):
         content = request.get_json("data")
-        # TODO: check if serie exists and save it
-        res = {"data": content, "op": "ok"}
-        resp = Response(json.dumps(res), status=200, mimetype="application/json")
+        # TODO: check if serie exists (act a lowercase for name?)
+
+        if utils.database.insert_serie(utils.database.get_db(), content):
+            res = {"data": content, "op": "ok"}
+            resp = Response(json.dumps(res), status=200, mimetype="application/json")
+        else:
+            res = {"op": "ko", "msg": "Error to connect to database"}
+            resp = Response(json.dumps(res), status=500, mimetype="application/json")
 
         return resp
