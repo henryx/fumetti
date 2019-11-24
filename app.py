@@ -48,6 +48,10 @@ def main():
             "func": serie.Serie().request_serie,
             "methods": ["GET", "POST"]
         },
+        "/status_serie": {
+            "func": lookup.get_status_serie,
+            "methods": ["GET"]
+        },
         "/valuta": {
             "func": lookup.get_valuta,
             "methods": ["GET"]
