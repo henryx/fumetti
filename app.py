@@ -44,6 +44,10 @@ def main():
             "func": index.index,
             "methods": ["GET"]
         },
+        "/periodicita": {
+            "func": lookup.get_periodicita,
+            "methods": ["GET"]
+        },
         "/serie": {
             "func": serie.Serie().request_serie,
             "methods": ["GET", "POST"]
