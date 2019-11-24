@@ -5,37 +5,17 @@
 # Description   A RESTful API for managing a collection of comic books
 # License       GPL version 2 (see LICENSE for details)
 import json
-from contextlib import closing
 
-import psycopg2
 from flask import Response
 
 import utils
 
 
-def execute_query_lookup(query):
-    data = []
-
-    try:
-        db = utils.database.get_db()
-
-        with closing(db.cursor()) as cur:
-            cur.execute(query)
-            results = cur.fetchall()
-            for item in results:
-                data.append({"id": item[0], "name": item[1]})
-
-        res = {"data": data, "op": "ok"}
-    except psycopg2.OperationalError:
-        res = {"op": "ko", "msg": "Error to connect to database"}
-
-    return res
-
-
 def get_valuta():
     query = "SELECT id_valuta, simbolo FROM valuta"
+    db = utils.database.get_db()
 
-    res = execute_query_lookup(query)
+    res = utils.database.execute_query_lookup(db, query)
 
     if res["op"] == "ok":
         status = 200
@@ -48,8 +28,9 @@ def get_valuta():
 
 def get_rilegatura():
     query = "SELECT id_rilegatura, descrizione FROM rilegatura"
+    db = utils.database.get_db()
 
-    res = execute_query_lookup(query)
+    res = utils.database.execute_query_lookup(db, query)
 
     if res["op"] == "ok":
         status = 200
@@ -62,8 +43,9 @@ def get_rilegatura():
 
 def get_conservazione():
     query = "SELECT id_stato_conservazione, descrizione FROM stato_conservazione"
+    db = utils.database.get_db()
 
-    res = execute_query_lookup(query)
+    res = utils.database.execute_query_lookup(db, query)
 
     if res["op"] == "ok":
         status = 200
@@ -76,8 +58,9 @@ def get_conservazione():
 
 def get_status_serie():
     query = "SELECT id_status_serie, descrizione FROM status_serie"
+    db = utils.database.get_db()
 
-    res = execute_query_lookup(query)
+    res = utils.database.execute_query_lookup(db, query)
 
     if res["op"] == "ok":
         status = 200
@@ -90,8 +73,9 @@ def get_status_serie():
 
 def get_periodicita():
     query = "SELECT id_periodicita, descrizione FROM periodicita"
+    db = utils.database.get_db()
 
-    res = execute_query_lookup(query)
+    res = utils.database.execute_query_lookup(db, query)
 
     if res["op"] == "ok":
         status = 200
@@ -104,8 +88,9 @@ def get_periodicita():
 
 def get_genere_serie():
     query = "SELECT id_genere_serie, descrizione FROM genere_serie"
+    db = utils.database.get_db()
 
-    res = execute_query_lookup(query)
+    res = utils.database.execute_query_lookup(db, query)
 
     if res["op"] == "ok":
         status = 200

@@ -33,6 +33,23 @@ def close_db():
         current_app.config["pgpool"].putconn(db)
 
 
+def execute_query_lookup(db, query):
+    data = []
+
+    with closing(db.cursor()) as cur:
+        try:
+            cur.execute(query)
+            results = cur.fetchall()
+            for item in results:
+                data.append({"id": item[0], "name": item[1]})
+
+            res = {"data": data, "op": "ok"}
+        except psycopg2.OperationalError:
+            res = {"op": "ko", "msg": "Error to connect to database"}
+
+    return res
+
+
 def insert_albo(db, data):
     query = "INSERT INTO albi(id_serie, numero_albo, data_pubblicazione, prezzo_copertina, id_valuta, id_rilegatura, id_stato_conservazione, note) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
 
