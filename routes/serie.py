@@ -29,20 +29,11 @@ class Serie:
         return resp
 
     def get_serie(self):
-        data = []
-
-        try:
-            db = utils.database.get_db()
-
-            with closing(db.cursor()) as cur:
-                cur.execute("SELECT id_serie, nome FROM serie ORDER BY nome")
-                results = cur.fetchall()
-                for item in results:
-                    data.append({"id": item[0], "name": item[1]})
-
+        data, err = utils.database.select_serie(utils.database.get_db())
+        if not err:
             res = {"data": data, "op": "ok"}
             resp = Response(json.dumps(res), status=200, mimetype="application/json")
-        except psycopg2.OperationalError:
+        else:
             res = {"op": "ko", "msg": "Error to connect to database"}
             resp = Response(json.dumps(res), status=500, mimetype="application/json")
 

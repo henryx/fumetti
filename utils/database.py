@@ -63,6 +63,22 @@ def insert_albo(db, data):
         return True
 
 
+def select_serie(db):
+    query = "SELECT id_serie, nome FROM serie ORDER BY nome"
+
+    data = []
+    with closing(db.cursor()) as cur:
+        try:
+            cur.execute(query)
+            results = cur.fetchall()
+            for item in results:
+                data.append({"id": item[0], "name": item[1]})
+        except psycopg2.Error as e:
+            return [], True
+
+    return data, False
+
+
 def insert_serie(db, data):
     query = "INSERT INTO serie(nome, id_collana, id_status_serie, id_genere_serie, note) VALUES(%s, %s, %s, %s, %s)"
 
