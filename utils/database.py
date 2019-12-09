@@ -89,3 +89,19 @@ def insert_serie(db, data):
         except psycopg2.Error as e:
             return False
         return True
+
+
+def select_collane(db):
+    query = "SELECT id_collana, nome FROM collane ORDER BY nome"
+
+    data = []
+    with closing(db.cursor()) as cur:
+        try:
+            cur.execute(query)
+            results = cur.fetchall()
+            for item in results:
+                data.append({"id": item[0], "name": item[1]})
+        except psycopg2.Error as e:
+            return [], True
+
+    return data, False
