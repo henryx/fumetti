@@ -6,11 +6,15 @@
 # License       GPL version 2 (see LICENSE for details)
 import json
 
-from flask import Response
+from flask import Blueprint, Response
 
 import utils.database
 
 
+collane_route = Blueprint('collane_route', __name__)
+
+
+@collane_route.route("/collane", methods=("GET",))
 def get_collane():
     data, err = utils.database.select_collane(utils.database.get_db())
     if not err:

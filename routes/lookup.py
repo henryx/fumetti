@@ -6,11 +6,14 @@
 # License       GPL version 2 (see LICENSE for details)
 import json
 
-from flask import Response
+from flask import Blueprint, Response
 
 import utils
 
+lookup_route = Blueprint('lookup_route', __name__)
 
+
+@lookup_route.route("/valuta", methods=("GET",))
 def get_valuta():
     query = "SELECT id_valuta, simbolo FROM valuta"
     db = utils.database.get_db()
@@ -26,6 +29,7 @@ def get_valuta():
     return resp
 
 
+@lookup_route.route("/rilegatura", methods=("GET",))
 def get_rilegatura():
     query = "SELECT id_rilegatura, descrizione FROM rilegatura"
     db = utils.database.get_db()
@@ -41,6 +45,7 @@ def get_rilegatura():
     return resp
 
 
+@lookup_route.route("/conservazione", methods=("GET",))
 def get_conservazione():
     query = "SELECT id_stato_conservazione, descrizione FROM stato_conservazione"
     db = utils.database.get_db()
@@ -56,6 +61,7 @@ def get_conservazione():
     return resp
 
 
+@lookup_route.route("/genere_serie", methods=("GET",))
 def get_status_serie():
     query = "SELECT id_status_serie, descrizione FROM status_serie"
     db = utils.database.get_db()
@@ -71,6 +77,7 @@ def get_status_serie():
     return resp
 
 
+@lookup_route.route("/periodicita", methods=("GET",))
 def get_periodicita():
     query = "SELECT id_periodicita, descrizione FROM periodicita"
     db = utils.database.get_db()
@@ -86,6 +93,7 @@ def get_periodicita():
     return resp
 
 
+@lookup_route.route("/genere_serie", methods=("GET",))
 def get_genere_serie():
     query = "SELECT id_genere_serie, descrizione FROM genere_serie"
     db = utils.database.get_db()

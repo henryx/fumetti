@@ -10,7 +10,11 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
-from routes import *
+from routes.albi import albi_route
+from routes.collane import collane_route
+from routes.index import index_route
+from routes.lookup import lookup_route
+from routes.serie import serie_route
 from utils import database
 
 __author__ = "Enrico Bianchi"
@@ -39,54 +43,11 @@ def config():
 def main():
     config()
 
-    ROUTES = {
-        "/": {
-            "func": index.index,
-            "methods": ["GET"]
-        },
-        "/albi": {
-            "func": albi.Albi().post_albi,
-            "methods": ["POST"]
-        },
-        "/albi/<serie>": {
-            "func": albi.Albi().get_albi,
-            "methods": ["GET"]
-        },
-        "/collane": {
-            "func": collane.get_collane,
-            "methods": ["GET"]
-        },
-        "/conservazione": {
-            "func": lookup.get_conservazione,
-            "methods": ["GET"]
-        },
-        "/genere_serie": {
-            "func": lookup.get_genere_serie,
-            "methods": ["GET"]
-        },
-        "/periodicita": {
-            "func": lookup.get_periodicita,
-            "methods": ["GET"]
-        },
-        "/rilegatura": {
-            "func": lookup.get_rilegatura,
-            "methods": ["GET"]
-        },
-        "/serie": {
-            "func": serie.Serie().request_serie,
-            "methods": ["GET", "POST"]
-        },
-        "/status_serie": {
-            "func": lookup.get_status_serie,
-            "methods": ["GET"]
-        },
-        "/valuta": {
-            "func": lookup.get_valuta,
-            "methods": ["GET"]
-        }
-    }
-    for url in ROUTES:
-        app.add_url_rule(url, view_func=ROUTES[url]["func"], methods=ROUTES[url]["methods"])
+    app.register_blueprint(index_route)
+    app.register_blueprint(albi_route)
+    app.register_blueprint(serie_route)
+    app.register_blueprint(collane_route)
+    app.register_blueprint(lookup_route)
 
     app.run(debug=os.environ.get("APP_DEBUG", default=False), host=os.environ.get("APP_HOST", default="localhost"),
             port=os.environ.get("APP_PORT", default="8000"))
