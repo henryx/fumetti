@@ -32,11 +32,11 @@ CORS(app)
 
 def config():
     app.config["pgpool"] = database.open_db(
-        host=os.environ.get("DATABASE_HOST", default="localhost"),
-        port=os.environ.get("DATABASE_PORT", default="5432"),
-        dbname=os.environ.get("DATABASE_NAME", default=""),
-        user=os.environ.get("DATABASE_USER", default=""),
-        password=os.environ.get("DATABASE_PASSWORD", default="")
+        host=os.environ.get("FUMETTI_DB_HOST", default="localhost"),
+        port=os.environ.get("FUMETTI_DB_PORT", default="5432"),
+        dbname=os.environ.get("FUMETTI_DB_NAME", default=""),
+        user=os.environ.get("FUMETTI_DB_USER", default=""),
+        password=os.environ.get("FUMETTI_DB_PASSWORD", default="")
     )
 
 
