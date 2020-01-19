@@ -80,11 +80,12 @@ def select_serie(db):
 
 
 def insert_serie(db, data):
-    query = "INSERT INTO serie(nome, id_collana, id_status_serie, id_genere_serie, note) VALUES(%s, %s, %s, %s, %s)"
+    query = "INSERT INTO serie(nome, id_collana, id_status_serie, id_periodicita, id_genere_serie, note) VALUES(%s, %s, %s, %s, %s)"
 
     with closing(db.cursor()) as cur:
         try:
-            cur.execute(query, (data["name"], data["collana"], data["status_serie"], data["periodicita"], data["note"]))
+            cur.execute(query, (data["name"], data["collana"], data["status_serie"], data["periodicita"],
+                                data["genere"], data["note"]))
             db.commit()
         except psycopg2.Error as e:
             return False
