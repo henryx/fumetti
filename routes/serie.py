@@ -13,19 +13,7 @@ import utils.database
 serie_route = Blueprint('serie_route', __name__)
 
 
-@serie_route.route("/serie")
-def request_serie():
-    if request.method == "GET":
-        resp = get_serie()
-    elif request.method == "POST":
-        resp = post_serie()
-    else:
-        res = {"msg": "Request not allowed", "op": "ko"}
-        resp = Response(json.dumps(res), status=405, mimetype="application/json")
-
-    return resp
-
-
+@serie_route.route("/serie", methods=("GET",))
 def get_serie():
     data, err = utils.database.select_serie(utils.database.get_db())
     if not err:
@@ -38,6 +26,7 @@ def get_serie():
     return resp
 
 
+@serie_route.route("/serie", methods=("POST",))
 def post_serie():
     content = request.get_json("data")
     # TODO: check if serie exists (act a lowercase for name?)
