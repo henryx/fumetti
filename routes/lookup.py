@@ -61,7 +61,7 @@ def get_conservazione():
     return resp
 
 
-@lookup_route.route("/genere_serie", methods=("GET",))
+@lookup_route.route("/status_serie", methods=("GET",))
 def get_status_serie():
     query = "SELECT id_status_serie, descrizione FROM status_serie"
     db = utils.database.get_db()
