@@ -49,8 +49,8 @@ def main():
     app.register_blueprint(collane_route)
     app.register_blueprint(lookup_route)
 
-    app.run(debug=os.environ.get("APP_DEBUG", default=False), host=os.environ.get("APP_HOST", default="localhost"),
-            port=os.environ.get("APP_PORT", default="8000"))
+    app.run(debug=os.environ.get("FUMETTI_DEBUG", default=False), host=os.environ.get("FUMETTI_HOST", default="localhost"),
+            port=os.environ.get("FUMETTI_PORT", default="8000"))
 
 
 if __name__ == '__main__':
