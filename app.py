@@ -12,6 +12,7 @@ from flask_cors import CORS
 
 from routes.albi import albi_route
 from routes.collane import collane_route
+from routes.editore import editore_route
 from routes.index import index_route
 from routes.lookup import lookup_route
 from routes.serie import serie_route
@@ -47,6 +48,7 @@ def main():
     app.register_blueprint(albi_route)
     app.register_blueprint(serie_route)
     app.register_blueprint(collane_route)
+    app.register_blueprint(editore_route)
     app.register_blueprint(lookup_route)
 
     app.run(debug=os.environ.get("FUMETTI_DEBUG", default=False), host=os.environ.get("FUMETTI_HOST", default="localhost"),
