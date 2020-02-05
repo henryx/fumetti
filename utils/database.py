@@ -4,10 +4,10 @@
 # Project Name: fumetti
 # Description   A RESTful API for managing a collection of comic books
 # License       GPL version 2 (see LICENSE for details)
-from contextlib import closing
+from contextlib import contextmanager
 
 import psycopg2.pool
-from flask import g, current_app
+from flask import current_app
 
 
 def open_db(host, port, dbname, user, password):
@@ -19,24 +19,31 @@ def open_db(host, port, dbname, user, password):
     return pool
 
 
-def get_db():
-    if "db" not in g:
-        g.db = current_app.config["pgpool"].getconn()
-
-    return g.db
-
-
-def close_db():
-    db = g.pop('db', None)
-
-    if db:
-        current_app.config["pgpool"].putconn(db)
+@contextmanager
+def get_db_conn():
+    try:
+        conn = current_app.config["pgpool"].getconn()
+        yield conn
+    finally:
+        current_app.config["pgpool"].putconn(conn)
 
 
-def execute_query_lookup(db, query):
+@contextmanager
+def get_db_cur(commit=False):
+    with get_db_conn() as conn:
+        cur = conn.cursor()
+        try:
+            yield cur
+            if commit:
+                conn.commit()
+        finally:
+            cur.close()
+
+
+def execute_query_lookup(query):
     data = []
 
-    with closing(db.cursor()) as cur:
+    with get_db_cur() as cur:
         try:
             cur.execute(query)
             results = cur.fetchall()
@@ -50,24 +57,23 @@ def execute_query_lookup(db, query):
     return res
 
 
-def insert_albo(db, data):
+def insert_albo(data):
     query = "INSERT INTO albi(id_serie, numero_albo, data_pubblicazione, prezzo_copertina, id_valuta, id_rilegatura, id_stato_conservazione, note) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
 
-    with closing(db.cursor()) as cur:
+    with get_db_cur(True) as cur:
         try:
             cur.execute(query, (data["serie"], data["numero"], data["date"], data["prezzo"], data["valuta"],
                                 data["rilegatura"], data["conservazione"], data["note"]))
-            db.commit()
         except psycopg2.Error as e:
             return False
         return True
 
 
-def select_serie(db):
+def select_serie():
     query = "SELECT id_serie, nome FROM serie ORDER BY nome"
 
     data = []
-    with closing(db.cursor()) as cur:
+    with get_db_cur() as cur:
         try:
             cur.execute(query)
             results = cur.fetchall()
@@ -79,24 +85,23 @@ def select_serie(db):
     return data, False
 
 
-def insert_serie(db, data):
+def insert_serie(data):
     query = "INSERT INTO serie(nome, id_collana, id_status_serie, id_periodicita, id_genere_serie, note) VALUES(%s, %s, %s, %s, %s)"
 
-    with closing(db.cursor()) as cur:
+    with get_db_cur(True) as cur:
         try:
             cur.execute(query, (data["name"], data["collana"], data["status_serie"], data["periodicita"],
                                 data["genere"], data["note"]))
-            db.commit()
         except psycopg2.Error as e:
             return False
         return True
 
 
-def select_collane(db):
+def select_collane():
     query = "SELECT id_collana, nome FROM collane ORDER BY nome"
 
     data = []
-    with closing(db.cursor()) as cur:
+    with get_db_cur() as cur:
         try:
             cur.execute(query)
             results = cur.fetchall()
