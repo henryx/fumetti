@@ -15,7 +15,7 @@ serie_route = Blueprint('serie_route', __name__)
 
 @serie_route.route("/serie", methods=("GET",))
 def get_serie():
-    data, err = utils.database.select_serie(utils.database.get_db())
+    data, err = utils.database.select_serie()
     if not err:
         res = {"data": data, "op": "ok"}
         resp = Response(json.dumps(res), status=200, mimetype="application/json")
@@ -31,7 +31,7 @@ def post_serie():
     content = request.get_json("data")
     # TODO: check if serie exists (act a lowercase for name?)
 
-    if utils.database.insert_serie(utils.database.get_db(), content):
+    if utils.database.insert_serie(content):
         res = {"data": content, "op": "ok"}
         resp = Response(json.dumps(res), status=200, mimetype="application/json")
     else:

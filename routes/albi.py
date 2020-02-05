@@ -26,7 +26,7 @@ def get_albi(serie=None):
 def post_albi():
     content = request.get_json("data")
 
-    if database.insert_albo(database.get_db(), content):
+    if database.insert_albo(content):
         res = {"msg": "Saved albo successfully", "op": "ok"}
         status = 200
     else:

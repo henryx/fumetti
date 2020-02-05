@@ -16,7 +16,7 @@ collane_route = Blueprint('collane_route', __name__)
 
 @collane_route.route("/collane", methods=("GET",))
 def get_collane():
-    data, err = utils.database.select_collane(utils.database.get_db())
+    data, err = utils.database.select_collane()
     if not err:
         res = {"data": data, "op": "ok"}
         resp = Response(json.dumps(res), status=200, mimetype="application/json")
