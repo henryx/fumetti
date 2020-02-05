@@ -53,10 +53,5 @@ def main():
             port=os.environ.get("APP_PORT", default="8000"))
 
 
-@app.teardown_appcontext
-def teardown_db(f):
-    database.close_db()
-
-
 if __name__ == '__main__':
     main()
