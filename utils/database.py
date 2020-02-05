@@ -111,3 +111,19 @@ def select_collane():
             return [], True
 
     return data, False
+
+
+def select_editore():
+    query = "SELECT id_casa_editrice, nome FROM case_editrici ORDER BY nome"
+
+    data = []
+    with get_db_cur() as cur:
+        try:
+            cur.execute(query)
+            results = cur.fetchall()
+            for item in results:
+                data.append({"id": item[0], "name": item[1]})
+        except psycopg2.Error as e:
+            return [], True
+
+    return data, False
